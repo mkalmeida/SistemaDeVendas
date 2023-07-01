@@ -2,12 +2,12 @@ package com.api.vendas.model.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.api.vendas.model.ItemVenda;
-import com.api.vendas.model.ItensVendaPK;
 import com.api.vendas.model.repository.ItemVendaRepository;
 
 import jakarta.transaction.Transactional;
@@ -23,7 +23,7 @@ public class ItemVendaService {
 		return itemVendaRepository.save(itemVenda);
 	}
 
-	public Optional<ItemVenda> findByID(ItensVendaPK id) {
+	public Optional<ItemVenda> findByID(UUID id) {
 		return itemVendaRepository.findById(id);
 	}
 

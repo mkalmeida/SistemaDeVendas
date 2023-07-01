@@ -1,7 +1,9 @@
 package com.api.vendas.model.dto;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.api.vendas.model.Cliente;
 import com.api.vendas.model.ItemVenda;
@@ -18,13 +20,9 @@ public class VendaDto {
 	@NotNull
 	private Usuario usuario;
 	
-	@NotNull
 	private Double valorPago;
 	
-	@NotNull
-	private Double desconto;
-	
-	private List<ItemVenda> itens =  new ArrayList<ItemVenda>();
+	private List<ItemVenda> items = new ArrayList<>();
 	
 	public Cliente getCliente() {
 		return cliente;
@@ -50,21 +48,13 @@ public class VendaDto {
 		this.valorPago = valorPago;
 	}
 
-	public Double getDesconto() {
-		return desconto;
+	public List<ItemVenda> getItems() {
+		return items;
 	}
 
-	public void setDesconto(Double desconto) {
-		this.desconto = desconto;
+	public void setItems(List<ItemVenda> items) {
+		this.items = items;
 	}
 
-	public List<ItemVenda> getItens() {
-		return itens;
-	}
-
-	public void setItens(List<ItemVenda> itens) {
-		this.itens = itens;
-	}
-
-
+	
 }

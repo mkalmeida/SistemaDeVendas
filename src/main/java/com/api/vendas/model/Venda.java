@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -26,44 +27,39 @@ public class Venda implements Serializable {
 	private UUID id;
 
 	@OneToOne
-	@JoinColumn(name="idCliente", insertable=false, updatable=false)
+	@JoinColumn
 	private Cliente cliente;
 	
-	private UUID idCliente;
-	
 	@OneToOne
-	@JoinColumn(name="idUsuario", insertable=false, updatable=false)
+	@JoinColumn
 	private Usuario usuario;
-	
-	private Long idUsuario;
 	
 	private Double valorPago;
 	
-	private Double desconto;
-	
 	private Double troco;
+	
+	private Double valorTotal;
 	
 	private LocalDateTime dataHoraCriacao;
 	
-	@OneToMany(mappedBy="venda")
-	private List<ItemVenda> itens =  new ArrayList<ItemVenda>();
+	@OneToMany(targetEntity=ItemVenda.class, cascade = CascadeType.ALL)
+	@JoinColumn(name = "id_item_venda", referencedColumnName = "id")
+	private List<ItemVenda> items = new ArrayList<>();
 	
 	public Venda() {
 	}
 	
-	public Venda(UUID id, Cliente cliente, UUID idCliente, Usuario usuario, Long idUsuario, Double valorPago,
-			Double desconto, Double troco, LocalDateTime dataHoraCriacao, List<ItemVenda> itens) {
+	public Venda(UUID id, Cliente cliente, Usuario usuario, Double valorPago, Double troco,
+			Double valorTotal, LocalDateTime dataHoraCriacao, List<ItemVenda> items) {
 		super();
 		this.id = id;
 		this.cliente = cliente;
-		this.idCliente = idCliente;
 		this.usuario = usuario;
-		this.idUsuario = idUsuario;
 		this.valorPago = valorPago;
-		this.desconto = desconto;
 		this.troco = troco;
+		this.valorTotal = valorTotal;
 		this.dataHoraCriacao = dataHoraCriacao;
-		this.itens = itens;
+		this.items = items;
 	}
 
 	public UUID getId() {
@@ -82,14 +78,6 @@ public class Venda implements Serializable {
 		this.cliente = cliente;
 	}
 
-	public UUID getIdCliente() {
-		return idCliente;
-	}
-
-	public void setIdCliente(UUID idCliente) {
-		this.idCliente = idCliente;
-	}
-
 	public Usuario getUsuario() {
 		return usuario;
 	}
@@ -98,36 +86,42 @@ public class Venda implements Serializable {
 		this.usuario = usuario;
 	}
 
-	public Long getIdUsuario() {
-		return idUsuario;
-	}
-
-	public void setIdUsuario(Long idUsuario) {
-		this.idUsuario = idUsuario;
-	}
-
 	public Double getValorPago() {
 		return valorPago;
 	}
 
 	public void setValorPago(Double valorPago) {
-		this.valorPago = valorPago;
-	}
-
-	public Double getDesconto() {
-		return desconto;
-	}
-
-	public void setDesconto(Double desconto) {
-		this.desconto = desconto;
+		try {
+		if(valorPago>valorTotal) {
+			this.valorPago = valorPago;
+		}
+		} catch(Exception e) {
+		System.out.println("ERRO - Valor pago inferior ao total da compra");
+		}
 	}
 
 	public Double getTroco() {
+		if(valorTotal<valorPago) {
+			troco = valorPago - valorTotal;
+		} else {
+			troco = 0.0;
+		}
 		return troco;
 	}
 
 	public void setTroco(Double troco) {
 		this.troco = troco;
+	}
+
+	public Double getValorTotal() {
+        for (ItemVenda item : items) {
+            valorTotal += item.getSubTotal();
+        }
+		return valorTotal;
+	}
+
+	public void setValorTotal(Double valorTotal) {
+		this.valorTotal = valorTotal;
 	}
 
 	public LocalDateTime getDataHoraCriacao() {
@@ -138,19 +132,16 @@ public class Venda implements Serializable {
 		this.dataHoraCriacao = dataHoraCriacao;
 	}
 
-	public List<ItemVenda> getItens() {
-		return itens;
+	public List<ItemVenda> getItems() {
+		return items;
 	}
 
-	public void setItens(List<ItemVenda> itens) {
-		this.itens = itens;
+	public void setItems(List<ItemVenda> items) {
+		this.items = items;
 	}
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-
 	
-
-
 }

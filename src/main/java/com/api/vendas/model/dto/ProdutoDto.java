@@ -14,10 +14,10 @@ public class ProdutoDto {
 	private Double preco;
 	
 	@NotNull
-	private Integer quantidade;
+	private Integer quantidadeEstoque;
 	
 	@NotNull
-	private Long idCategoria;
+	private Categoria categoria;
 
 	public String getNome() {
 		return nome;
@@ -35,20 +35,20 @@ public class ProdutoDto {
 		this.preco = preco;
 	}
 
-	public Integer getQuantidade() {
-		return quantidade;
+	public Integer getQuantidadeEstoque() {
+		return quantidadeEstoque;
 	}
 
-	public void setQuantidade(Integer quantidade) {
-		this.quantidade = quantidade;
+	public void setQuantidadeEstoque(Integer quantidadeEstoque) {
+		this.quantidadeEstoque = quantidadeEstoque;
 	}
 
-	public Long getIdCategoria() {
-		return idCategoria;
+	public Categoria getCategoria() {
+		return categoria;
 	}
 
-	public void setIdCategoria(Long idCategoria) {
-		this.idCategoria = idCategoria;
+	public void setCategoria(Categoria categoria) {
+		this.categoria = categoria;
 	}
 
 }

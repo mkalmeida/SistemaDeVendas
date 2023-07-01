@@ -1,8 +1,8 @@
 package com.api.vendas.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 
 import jakarta.persistence.Entity;
@@ -27,50 +27,28 @@ public class Produto implements Serializable{
 	
 	private Double preco;
 	
-	private Integer quantidade;
+	private Integer quantidadeEstoque;
 
 	@ManyToOne
-	@JoinColumn(name="idCategoria", insertable=false, updatable=false)
+	@JoinColumn
 	private Categoria categoria;
-	
-	private Long idCategoria;
-	
-	@OneToMany(mappedBy="produto")
-	private List<ItemVenda> itens;
 
 	public Produto() {
 	}
-	
+
+		public Produto(UUID idProduto, String nome, Double preco, Integer quantidadeEstoque, Categoria categoria) {
+		super();
+		this.idProduto = idProduto;
+		this.nome = nome;
+		this.preco = preco;
+		this.quantidadeEstoque = quantidadeEstoque;
+		this.categoria = categoria;
+	}
+
 	public UUID getIdProduto() {
 		return idProduto;
 	}
 
-	
-	public Produto(UUID idProduto, String nome, Double preco, Integer quantidade, Categoria categoria, Long idCategoria) {
-		super();
-		this.idProduto = idProduto;
-		this.nome = nome;
-		this.preco = preco;
-		this.quantidade = quantidade;
-		this.categoria = categoria;
-		this.idCategoria = idCategoria;
-	}
-	
-	public Produto(UUID idProduto, String nome, Double preco, Integer quantidade, Categoria categoria, Long idCategoria,
-			List<ItemVenda> itens) {
-		super();
-		this.idProduto = idProduto;
-		this.nome = nome;
-		this.preco = preco;
-		this.quantidade = quantidade;
-		this.categoria = categoria;
-		this.idCategoria = idCategoria;
-		this.itens = itens;
-	}
-
-	public void setIdProduto(UUID idProduto) {
-		this.idProduto = idProduto;
-	}
 
 	public String getNome() {
 		return nome;
@@ -88,12 +66,12 @@ public class Produto implements Serializable{
 		this.preco = preco;
 	}
 
-	public Integer getQuantidade() {
-		return quantidade;
+	public Integer getQuantidadeEstoque() {
+		return quantidadeEstoque;
 	}
 
-	public void setQuantidade(Integer quantidade) {
-		this.quantidade = quantidade;
+	public void setQuantidadeEstoque(Integer quantidadeEstoque) {
+		this.quantidadeEstoque = quantidadeEstoque;
 	}
 
 	public Categoria getCategoria() {
@@ -104,27 +82,9 @@ public class Produto implements Serializable{
 		this.categoria = categoria;
 	}
 
-	public Long getIdCategoria() {
-		return idCategoria;
-	}
-
-	public void setIdCategoria(Long idCategoria) {
-		this.idCategoria = idCategoria;
-	}
-
-	public List<ItemVenda> getItens() {
-		return itens;
-	}
-
-	public void setItens(List<ItemVenda> itens) {
-		this.itens = itens;
-	}
-
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-	
-	
-	
+
 	
 }

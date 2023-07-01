@@ -1,103 +1,83 @@
 package com.api.vendas.model;
 
 import java.io.Serializable;
+import java.util.UUID;
 
-import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
 
 @Entity
+@Table(name="Itens_Venda")
 public class ItemVenda implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	
-	@EmbeddedId
-	private ItensVendaPK id = new ItensVendaPK();
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private UUID id;
 	
-	private Integer qtd;
+	private Integer quantidadeVenda;
 
-	private Double precoTotal;
-
-	@ManyToOne
-	@JoinColumn(name="venda_id", referencedColumnName = "id", insertable=false, updatable=false)
-	private Venda venda; 
-	
-	
-	@ManyToOne
-	@JoinColumn(name="produto_id", referencedColumnName = "idProduto", insertable=false, updatable=false)
+	@OneToOne
+	@JoinColumn
 	private Produto produto;
 	
+	@ManyToOne
+	private Venda venda;
+	
 	public ItemVenda() {
-		super();
 	}
 
-	public ItemVenda(ItensVendaPK id, Integer qtd, Double precoTotal, Venda venda, Produto produto) {
+	public ItemVenda(UUID id, Integer quantidadeVenda, Produto produto, Venda venda) {
 		super();
 		this.id = id;
-		this.qtd = qtd;
-		this.precoTotal = precoTotal;
-		this.venda = venda;
+		this.quantidadeVenda = quantidadeVenda;
 		this.produto = produto;
+		this.venda = venda;
 	}
 
-
-	public ItensVendaPK getId() {
+	public UUID getId() {
 		return id;
 	}
 
-
-	public Integer getQtd() {
-		return qtd;
+	public Integer getQuantidadeVenda() {
+		return quantidadeVenda;
 	}
 
-
-	public void setQtd(Integer qtd) {
-		this.qtd = qtd;
+	public void setQuantidadeVenda(Integer quantidadeVenda) {
+		this.quantidadeVenda = quantidadeVenda;
 	}
-	
-	public Double getPrecoTotal() {
-		for (int i =0; i<produto.getItens().size();i++) {
-			precoTotal = precoTotal + produto.getPreco()*qtd;
-		}
-		return precoTotal;
-	}
-
-
-	public void setPrecoTotal(Double precoTotal) {
-		this.precoTotal = precoTotal;
-	}
-
-
-	public void setId(ItensVendaPK id) {
-		this.id = id;
-	}
-
-
-	public Venda getVenda() {
-		return venda;
-	}
-
-
-	public void setVenda(Venda venda) {
-		this.venda = venda;
-	}
-
 
 	public Produto getProduto() {
 		return produto;
 	}
-
-
+	
 	public void setProduto(Produto produto) {
 		this.produto = produto;
 	}
-
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
 	
-	
+	public Double getSubTotal() {
+        //return this.produto.getPreco() * quantidadeVenda;
+		return 0.0;
+    }
+
+	public Venda getVenda() {
+		return venda;
+	}
+
+	public void setVenda(Venda venda) {
+		this.venda = venda;
+	}
+
 	
 }
