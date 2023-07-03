@@ -7,8 +7,9 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.api.vendas.model.Produto;
+import com.api.vendas.model.ItemVenda;
 import com.api.vendas.model.Venda;
+import com.api.vendas.model.repository.ItemVendaRepository;
 import com.api.vendas.model.repository.VendaRepository;
 
 import jakarta.transaction.Transactional;
@@ -18,9 +19,13 @@ public class VendaService {
 	
 	@Autowired
 	private VendaRepository vendaRepository;
-
+	
+	@Autowired
+	private ItemVendaRepository itemVendaRepository;
+	
 	@Transactional
-	public Object save(Venda venda) {
+	public Object save(Venda venda, ItemVenda itemVenda) {
+		itemVendaRepository.save(itemVenda);
 		return vendaRepository.save(venda);
 	}
 
@@ -37,7 +42,7 @@ public class VendaService {
 		return vendaRepository.findAll();
 	}
 	
-	public Object RealizaVenda(Venda venda) {
+	/*public Object RealizaVenda(Venda venda) {
 	  venda.getItems().forEach(x -> {
 	            Produto produto = x.getProduto();
 	            produto.setQuantidadeEstoque(produto.getQuantidadeEstoque() - x.getQuantidadeVenda());

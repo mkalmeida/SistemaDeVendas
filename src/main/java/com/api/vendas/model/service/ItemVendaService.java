@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.api.vendas.model.ItemVenda;
+import com.api.vendas.model.Produto;
+import com.api.vendas.model.Venda;
 import com.api.vendas.model.repository.ItemVendaRepository;
 
 import jakarta.transaction.Transactional;
@@ -35,6 +37,7 @@ public class ItemVendaService {
 	public List<ItemVenda> findAll() {
 		return itemVendaRepository.findAll();
 	}
+
 }
 
 

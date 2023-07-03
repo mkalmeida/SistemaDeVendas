@@ -43,7 +43,7 @@ public class Venda implements Serializable {
 	private LocalDateTime dataHoraCriacao;
 	
 	@OneToMany(targetEntity=ItemVenda.class, cascade = CascadeType.ALL)
-	@JoinColumn(name = "id_item_venda", referencedColumnName = "id")
+	@JoinColumn(name = "id_venda", referencedColumnName = "id")
 	private List<ItemVenda> items = new ArrayList<>();
 	
 	public Venda() {
@@ -114,9 +114,6 @@ public class Venda implements Serializable {
 	}
 
 	public Double getValorTotal() {
-        for (ItemVenda item : items) {
-            valorTotal += item.getSubTotal();
-        }
 		return valorTotal;
 	}
 

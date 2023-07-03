@@ -8,10 +8,14 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.JoinColumns;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import lombok.Builder;
+import lombok.ToString;
 
+@Builder
+@ToString
 @Entity
 @Table(name="Itens_Venda")
 public class ItemVenda implements Serializable {
@@ -23,23 +27,25 @@ public class ItemVenda implements Serializable {
 	private UUID id;
 	
 	private Integer quantidadeVenda;
+	
+	private Double SubTotal;
+	
+	private Double precoProd;
 
 	@OneToOne
 	@JoinColumn
 	private Produto produto;
 	
-	@ManyToOne
-	private Venda venda;
-	
 	public ItemVenda() {
 	}
 
-	public ItemVenda(UUID id, Integer quantidadeVenda, Produto produto, Venda venda) {
+	public ItemVenda(UUID id, Integer quantidadeVenda, Double subTotal, Double precoProd, Produto produto) {
 		super();
 		this.id = id;
 		this.quantidadeVenda = quantidadeVenda;
+		SubTotal = subTotal;
+		this.precoProd = precoProd;
 		this.produto = produto;
-		this.venda = venda;
 	}
 
 	public UUID getId() {
@@ -65,19 +71,23 @@ public class ItemVenda implements Serializable {
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-	
+
+	public void setSubTotal(Double subTotal) {
+		this.SubTotal = subTotal;
+	}
+
 	public Double getSubTotal() {
-        //return this.produto.getPreco() * quantidadeVenda;
-		return 0.0;
-    }
-
-	public Venda getVenda() {
-		return venda;
+		return getPrecoProd() * getQuantidadeVenda();
 	}
 
-	public void setVenda(Venda venda) {
-		this.venda = venda;
+	public Double getPrecoProd() {
+		return this.produto.getPreco();
 	}
 
-	
+	public void setPrecoProd(Double precoProd) {
+		this.precoProd = precoProd;
+	}
+
 }
+	
+	

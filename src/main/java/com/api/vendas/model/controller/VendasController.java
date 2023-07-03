@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.api.vendas.model.ItemVenda;
 import com.api.vendas.model.Venda;
 import com.api.vendas.model.dto.VendaDto;
 import com.api.vendas.model.service.ItemVendaService;
@@ -37,16 +38,16 @@ public class VendasController  {
 	}
 	
 	@PostMapping("/post")	
-	public ResponseEntity <Object> saveVenda(@RequestBody @Valid VendaDto vendaDto) {
+	public ResponseEntity <Object> saveVenda(@RequestBody @Valid VendaDto vendaDto, ItemVenda itemVenda) {
 		var venda = new Venda();
 		BeanUtils.copyProperties(vendaDto, venda);
 		venda.setValorTotal(5.3);
 		venda.setValorPago(5.4);
 		venda.setDataHoraCriacao(LocalDateTime.now(ZoneId.of("UTC")));
-		return ResponseEntity.status(HttpStatus.CREATED).body(vendaService.save(venda));
+		return ResponseEntity.status(HttpStatus.CREATED).body(vendaService.save(venda, itemVenda));
 	}
 	
-	@PostMapping("/post/teste")	
+	/*@PostMapping("/post/teste")	
 	public ResponseEntity <Object> RealizaVenda(@RequestBody @Valid VendaDto vendaDto) {
 		var venda = new Venda();
 		BeanUtils.copyProperties(vendaDto, venda);
@@ -54,7 +55,7 @@ public class VendasController  {
 		venda.setValorPago(5.4);
 		venda.setDataHoraCriacao(LocalDateTime.now(ZoneId.of("UTC")));
 		return ResponseEntity.status(HttpStatus.CREATED).body(vendaService.RealizaVenda(venda));
-	}
+	}*/
 	
 
 }
